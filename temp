@@ -5,8 +5,16 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"time"
 
 	"github.com/spf13/cobra"
+	telebot "gopkg.in/telebot.v3"
+)
+
+var (
+	TeleToken = os.Getenv("TELE_TOKEN")
 )
 
 // versionCmd represents the version command
@@ -20,7 +28,27 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("version called")
+		fmt.Printf("kbot %s started", appVersion)
+		kbot, err := telebot.NewBot(telebot.settings{
+			URL:    "",
+			Token:  TeleToken,
+			Poller: &telebot.LongPoller{Timeout: 10 * time.Second},
+		})
+
+		if err != nil {
+			log.Fatalf("Please check TELE_TOKEN env. %s", err)
+			return
+		}
+
+		kbot.Handle(telebot.OnText, func(m telebot.Context) error {
+
+			log.Print(m.message().PayLoad, m.Text())
+
+			return err
+
+		})
+		kbot.Start()
+
 	},
 }
 
