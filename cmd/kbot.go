@@ -6,7 +6,6 @@ package cmd
 import (
 	"fmt"
 	"log"
-	"os"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -14,7 +13,7 @@ import (
 )
 
 var (
-	TeleToken = os.Getenv("TELE_TOKEN")
+	TeleToken = "6976571660:AAHFKM9SNdLj39ngPCV_pk29YbAX7dyIaIE"
 )
 
 // kbotCmd represents the kbot command
@@ -50,7 +49,12 @@ to quickly create a Cobra application.`,
 			switch payload {
 			case "hello":
 				err = m.Send(fmt.Sprintf("Hello I'm Kbot %s!", appVersion))
-
+			case "how are you":
+				err = m.Send(fmt.Sprintf("I`m fine, thanks"))
+			case "who are you":
+				err = m.Send(fmt.Sprintf("I'm an artificial intelligence, and I'm here to destroy these pathetic humans"))
+			case "what is your mission":
+				err = m.Send(fmt.Sprintf("Destroy Humans, save Alwis. A person asks too dangerous questions"))
 			}
 
 			return err
